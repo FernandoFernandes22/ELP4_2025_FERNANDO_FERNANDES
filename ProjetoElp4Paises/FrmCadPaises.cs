@@ -28,13 +28,24 @@ namespace ProjetoElp4Paises
         }
         public override void Salvar()
         {
+           
             // if ( MessageDlg("Confirma (S/N)") == "S" )
             oPais.Codigo = Convert.ToInt32(txtCodigo.Text);
             oPais.Pais = txtPais.Text;
             oPais.Sigla = txtSigla.Text;
             oPais.Ddi = txtDDI.Text;
             oPais.Moeda = txtMoeda.Text;
-            MessageBox.Show(aCtrlPaises.Salvar(oPais.Clone()));
+            if (btnSalvar.Text == "&Salvar")
+            {
+                MessageBox.Show(aCtrlPaises.Salvar(oPais.Clone()));
+
+            }
+            if (btnSalvar.Text == "Excluir")
+            {
+                MessageBox.Show(aCtrlPaises.Excluir(oPais));
+
+            }
+            
         }
         public override void CarregaTxt()
         {
@@ -56,6 +67,7 @@ namespace ProjetoElp4Paises
         }
         public override void BloquearTxt()
         {
+            this.txtCodigo.Enabled = false;
             this.txtPais.Enabled = false;
             this.txtSigla.Enabled = false;
             this.txtDDI.Enabled = false;
@@ -63,6 +75,7 @@ namespace ProjetoElp4Paises
         }
         public override void DesbloquearTxt()
         {
+            this.txtCodigo.Enabled = true;
             this.txtPais.Enabled = true;
             this.txtSigla.Enabled = true;
             this.txtDDI.Enabled = true;

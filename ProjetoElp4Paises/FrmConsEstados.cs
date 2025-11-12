@@ -20,7 +20,23 @@ namespace ProjetoElp4Paises
 
         protected override void Pesquisar()
         {
+            ListV.Items.Clear();
 
+            string chave = txtCodigo.Text.Trim();
+            List<Estados> lista = aCtrlEstados.Pesquisar(chave);
+
+            if (lista == null || lista.Count == 0)
+                return;
+            foreach (var oEstado in lista)
+            {
+
+                ListViewItem item = new ListViewItem(Convert.ToString(oEstado.Codigo));
+                item.SubItems.Add(oEstado.Estado);
+                item.SubItems.Add(oEstado.Uf);
+                item.SubItems.Add(Convert.ToString(oEstado.OPais.Codigo));
+                item.SubItems.Add(oEstado.OPais.Pais);
+                ListV.Items.Add(item);
+            }
         }
         protected override void Incluir()
         {
@@ -35,6 +51,7 @@ namespace ProjetoElp4Paises
             oFrmCadEstados.LimpaTxt();
             oFrmCadEstados.CarregaTxt();
             oFrmCadEstados.ShowDialog();
+            this.CarregaLv();
         }
         protected override void Excluir()
         {
@@ -48,15 +65,25 @@ namespace ProjetoElp4Paises
             oFrmCadEstados.ShowDialog();
             oFrmCadEstados.DesbloquearTxt();
             oFrmCadEstados.btnSalvar.Text = aux;
+            this.CarregaLv(); 
         }
         protected override void CarregaLv()
         {
-            ListViewItem item = new ListViewItem(Convert.ToString(oEstado.Codigo));
-            item.SubItems.Add(oEstado.Estado);
-            item.SubItems.Add(oEstado.Uf);
-            item.SubItems.Add(Convert.ToString(oEstado.OPais.Codigo));
-            item.SubItems.Add(oEstado.OPais.Pais);
-            ListV.Items.Add(item);
+            ListV.Items.Clear();
+            List<Estados> lista = aCtrlEstados.Listar();
+
+            if (lista == null || lista.Count == 0)
+                return;
+            foreach (var oEstado in lista)
+            {
+
+                ListViewItem item = new ListViewItem(Convert.ToString(oEstado.Codigo));
+                item.SubItems.Add(oEstado.Estado);
+                item.SubItems.Add(oEstado.Uf);
+                item.SubItems.Add(Convert.ToString(oEstado.OPais.Codigo));
+                item.SubItems.Add(oEstado.OPais.Pais);
+                ListV.Items.Add(item);
+            }
         }
         public override void setFrmCadastro(object obj)
         {
@@ -69,6 +96,21 @@ namespace ProjetoElp4Paises
                 oEstado = (Estados)obj;
             if (ctrl != null)
                 aCtrlEstados = (CtrlEstados)ctrl;
+            this.CarregaLv();
+        }
+
+        private void ListV_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (this.ListV.SelectedItems.Count > 0)
+            {
+
+                int codigo = Convert.ToInt32(this.ListV.SelectedItems[0].Text);
+
+
+                oEstado = (Estados)aCtrlEstados.CarregaObj(codigo);
+               
+            }
         }
     }
 }

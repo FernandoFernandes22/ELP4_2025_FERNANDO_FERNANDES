@@ -24,6 +24,7 @@ namespace ProjetoElp4Paises
         {
             this.cidade = cidade;
             this.ddd = ddd;
+            this.oEstado = oEstado;
         }
         public Cidades Clone()
         {

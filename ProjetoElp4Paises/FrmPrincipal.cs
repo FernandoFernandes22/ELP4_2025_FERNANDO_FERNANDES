@@ -14,7 +14,6 @@ namespace ProjetoElp4Paises
     {
         Interfaces aInter = new Interfaces();
         Paises oPais = new Paises();
-       
         Estados oEstado = new Estados();
         Cidades aCidade = new Cidades();
         CtrlPaises aCtrlPaises = new CtrlPaises();

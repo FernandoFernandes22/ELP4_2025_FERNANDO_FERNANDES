@@ -63,7 +63,7 @@ namespace ProjetoElp4Paises
 
             using (SqlCommand cmd = new SqlCommand(mSql, cnn))
             {
-                cmd.Parameters.AddWithValue("@id", chave);
+                cmd.Parameters.AddWithValue("@codigo", chave);
 
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -84,7 +84,29 @@ namespace ProjetoElp4Paises
         }
         public override List<Paises> Pesquisar(string chave)
         {
-            return null;
+            List<Paises> lista = new List<Paises>();
+            string mSql = $"select * from paises where Pais like '%{chave}%'";
+
+            using (SqlCommand cmd = new SqlCommand(mSql, cnn))
+            {
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        Paises oPais = new Paises();
+                        oPais.Codigo = Convert.ToInt32(dr["codigo"]);
+                        oPais.Pais = dr["pais"].ToString();
+                        oPais.Sigla = dr["sigla"].ToString();
+                        oPais.Ddi = dr["ddi"].ToString();
+                        oPais.Moeda = dr["moeda"].ToString();
+                        oPais.DatCad = Convert.ToDateTime(dr["datCad"]);
+                        oPais.UltAlt = Convert.ToDateTime(dr["ultAlt"]);
+
+                        lista.Add(oPais);
+                    }
+                }
+            }
+            return lista;
         }
         public override string Salvar(object obj)
         {
@@ -97,7 +119,7 @@ namespace ProjetoElp4Paises
             }
             else
             {
-                mSql = "update paises set pais = @pais, sigla = @sigla, ddi = @ddi , moeda = @moeda,datcat = @datcat,ultalt = @ultalt where  codigo = @codigo";
+                mSql = "update paises set pais = @pais, sigla = @sigla, ddi = @ddi , moeda = @moeda,datcad = @datcad,ultalt = @ultalt where  codigo = @codigo";
             }    
                 using (SqlCommand cmd = new SqlCommand(mSql, cnn))
                 {

@@ -13,7 +13,7 @@ namespace ProjetoElp4Paises
         FrmConsPaises oFrmConsPaises;
         Estados oEstado;
         CtrlEstados aCtrlEstados;
-        CtrlPaises aCtrlPaises;
+        
         public FrmCadEstados()
         {
             InitializeComponent();
@@ -44,7 +44,19 @@ namespace ProjetoElp4Paises
             oEstado.Codigo = Convert.ToInt32(txtCodigo.Text);
             oEstado.Estado = txtEstado.Text;
             oEstado.Uf = txtUf.Text;
-            MessageBox.Show(aCtrlEstados.Salvar(oEstado.Clone()));
+            oEstado.OPais.Codigo = Convert.ToInt32(txtCodigoPais.Text);
+            oEstado.OPais.Pais = txtPais.Text;
+            
+            if (btnSalvar.Text == "&Salvar")
+            {
+                MessageBox.Show(aCtrlEstados.Salvar(oEstado.Clone()));
+
+            }
+            if (btnSalvar.Text == "Excluir")
+            {
+                MessageBox.Show(aCtrlEstados.Excluir(oEstado));
+
+            }
 
 
         }
@@ -53,6 +65,8 @@ namespace ProjetoElp4Paises
             this.txtCodigo.Text = Convert.ToString(oEstado.Codigo);
             this.txtEstado.Text = oEstado.Estado;
             this.txtUf.Text = oEstado.Uf;
+            this.txtCodigoPais.Text = Convert.ToString(oEstado.OPais.Codigo);
+            this.txtPais.Text = oEstado.OPais.Pais;
             
 
         }
@@ -62,17 +76,26 @@ namespace ProjetoElp4Paises
             this.txtCodigo.Text = "0";
             this.txtEstado.Clear();
             this.txtUf.Clear();
-            
+            this.txtCodigoPais.Text ="0";
+            this.txtPais.Clear();
+
+
         }
         public override void BloquearTxt()
         {
+            this.txtCodigo.Enabled = false;
             this.txtEstado.Enabled = false;
             this.txtUf.Enabled = false;
+            this.txtCodigoPais.Enabled = false;
+            this.txtPais.Enabled = false;
         }
         public override void DesbloquearTxt()
         {
+            this.txtCodigo.Enabled = true;
             this.txtEstado.Enabled = true;
             this.txtUf.Enabled = true;
+            this.txtCodigoPais.Enabled = true;
+            this.txtPais.Enabled = true;
            
         }
         
@@ -80,7 +103,7 @@ namespace ProjetoElp4Paises
         {
             string btnSair = oFrmConsPaises.btnSair.Text;
             oFrmConsPaises.btnSair.Text = "Selecionar";
-            oFrmConsPaises.ConhecaObj(oEstado.OPais, aCtrlPaises);
+            oFrmConsPaises.ConhecaObj(oEstado.OPais, aCtrlEstados.ACtrlPaises);
             oFrmConsPaises.ShowDialog();
             this.txtCodigoPais.Text = Convert.ToString(oEstado.OPais.Codigo);
             this.txtPais.Text = oEstado.OPais.Pais.ToString();

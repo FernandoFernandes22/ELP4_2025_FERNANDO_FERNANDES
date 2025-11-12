@@ -10,15 +10,20 @@ namespace ProjetoElp4Paises
     {
             ColCidades aColCidades;
             DaoCidades aDaoCidades;
+            CtrlEstados aCtrlEstados;
 
 
         public CtrlCidades()
         {
             aColCidades = new ColCidades();
             aDaoCidades = new DaoCidades();
+            aCtrlEstados = new CtrlEstados();
         }
 
-        
+        public CtrlCidades(CtrlEstados aCtrlEstados)
+        {
+            this.aCtrlEstados = aCtrlEstados;
+        }
         public override string Salvar(object obj)
         {
             // base.Salvar(obj);
@@ -41,6 +46,11 @@ namespace ProjetoElp4Paises
         public override List<Cidades> Pesquisar(string chave)
         {
             return aDaoCidades.Pesquisar(chave);
+        }
+        public CtrlEstados ACtrlEstados
+        {
+            get => aCtrlEstados;
+            set => aCtrlEstados = value;
         }
     }
     
